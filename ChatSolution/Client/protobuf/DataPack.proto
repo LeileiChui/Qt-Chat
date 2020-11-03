@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+message DataPack{
+  string type = 1;
+  string id = 2;
+  double timeStamp = 3;
+  LoginData login_data = 4;
+  LogoutData logout_data = 5;
+  AckData ack_data = 6;
+}
+message LoginData{
+  string uid = 1;
+  string password = 2;
+}
+message LogoutData{
+  string uid = 1;
+  string session = 2;
+}
+message AckData{
+  string ack_id = 1;
+  string session = 2;
+}

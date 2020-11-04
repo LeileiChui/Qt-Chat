@@ -2,8 +2,10 @@ import socket
 import struct
 import threading
 
+from LoginService import LoginService
 from MessageQueue import MessageQueue
 from protobuf.DataPack_pb2 import *
+from DB import DB
 
 
 class Handler:
@@ -77,6 +79,7 @@ class Handler:
 class Server:
     def __init__(self, ip='127.0.0.1', port=1234):
         self.handler_pool = {}
+        self.quit = False
         # 启动Socket服务
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
@@ -86,12 +89,17 @@ class Server:
         self.socket.listen(1000)
         print("服务器启动")
         # 启动消息队列
-        self.MQ = MessageQueue()
+        self.MQ = MessageQueue(self)
         threading.Thread(target=self.MQ.run).start()
+        # 启动登陆服务
+        self.LoginService = LoginService(self)
+        threading.Thread(target=self.LoginService.run).start()
+        # MySQL数据库
+        self.db = DB()
 
     def run(self):
         # 监听连接
-        while True:
+        while not self.quit:
             client, addr = self.socket.accept()
             print(*addr, "连接成功")
             client.setblocking(False)

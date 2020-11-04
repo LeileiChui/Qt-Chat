@@ -7,13 +7,15 @@ from PyQt5.QtCore import QObject, pyqtSignal
 
 
 class Client(QObject):
-    login_result=pyqtSignal(DataPack)
-    connect_info=pyqtSignal(bool)
+    login_result = pyqtSignal(DataPack)
+    connect_info = pyqtSignal(bool)
+
     def __init__(self):
-        super(Client,self).__init__()
-        self.send_buffer=[]
-        self.client=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.quit=False
+        super(Client, self).__init__()
+        self.send_buffer = []
+        self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.quit = False
+
     def run(self):
         while not self.quit:
             try:
@@ -35,14 +37,13 @@ class Client(QObject):
         self.client.setblocking(False)
         while not self.quit:
             self.sender()
-            data=self.receive()
+            data = self.receive()
             if data is None:
                 continue
-            data_pack=DataPack()
+            data_pack = DataPack()
             data_pack.ParseFromString(data)
-            if data_pack.type=="login_ack":
+            if data_pack.type == "login_ack":
                 self.login_result.emit(data_pack)
-
 
     def sender(self):
         for data_pack in self.send_buffer:
@@ -51,7 +52,7 @@ class Client(QObject):
             self.client.send(byte_length)
             self.client.send(byte_data)
             print("发送消息")
-        self.send_pool.clear()
+        self.send_buffer.clear()
 
     def receive(self):
         try:

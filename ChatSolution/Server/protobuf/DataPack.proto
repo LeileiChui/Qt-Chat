@@ -18,5 +18,6 @@ message LogoutData{
 }
 message AckData{
   string ack_id = 1;
-  string session = 2;
+  bool login_status = 2;
+  string session = 3;
 }

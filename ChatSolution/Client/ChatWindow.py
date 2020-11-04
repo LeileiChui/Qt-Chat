@@ -231,7 +231,7 @@ class MessageListView(QListView):
             widget.ui.snapshot.setText("信息" + str(i))
             widget.ui.delete_2.clicked.connect(self.remove)
             widget.ui.delete_2.setProperty("item", item)
-            widget.ui.horizontalLayout.clicked.connect(self.switch)
+            # widget.ui.horizontalLayout.clicked.connect(self.switch)
 
             item.setSizeHint(QSize(190, 70))
             self.setIndexWidget(index, widget)
@@ -245,6 +245,7 @@ class MessageListView(QListView):
         self._model.removeRow(index)
 
     def swtich(self):
+        pass
 
 
 class MessageListWindow(QListView):

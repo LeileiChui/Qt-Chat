@@ -8,19 +8,23 @@
 @Software: PyCharm
 """
 import sys
+import time
+import uuid
 
 from PyQt5 import Qt, QtCore, QtWidgets
 from PyQt5.QtCore import QEvent, pyqtSignal
 from PyQt5.QtGui import QFont, QCursor, QMouseEvent
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QApplication, QPushButton, QWidgetAction, QLineEdit, QLabel
 from IconButton import IconButton
+from protobuf.DataPack_pb2 import *
 
 
 class LoginWindow(QWidget):
-    quit_signal=pyqtSignal()
-    def __init__(self,app):
+    quit_signal = pyqtSignal()
+
+    def __init__(self, app):
         super(LoginWindow, self).__init__()
-        self.app=app
+        self.app = app
         self.setWindowFlag(Qt.Qt.FramelessWindowHint)
         self.setMaximumSize(248, 316)
         self.setMinimumSize(248, 316)
@@ -85,10 +89,10 @@ class LoginWindow(QWidget):
         self.input_password.addAction(action, QLineEdit.TrailingPosition)
         self.mainLayout.addWidget(self.input_password, 0, QtCore.Qt.AlignHCenter)
 
-        self.connect_info_label=QLabel(self)
+        self.connect_info_label = QLabel(self)
         self.connect_info_label.setStyleSheet("color:red")
         # self.connect_info_label.setText("服务器未连接")
-        self.mainLayout.addWidget(self.connect_info_label,0,QtCore.Qt.AlignHCenter)
+        self.mainLayout.addWidget(self.connect_info_label, 0, QtCore.Qt.AlignHCenter)
 
         spacer_3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.mainLayout.addItem(spacer_3)
@@ -144,31 +148,29 @@ class LoginWindow(QWidget):
         except Exception as e:
             pass
 
-    def connct_status(self,p_bool):
+    def connct_status(self, p_bool):
         if not p_bool:
             self.connect_info_label.setText("服务器未连接")
-            self.btn_login.setEnabled(True)#TODO
+            self.btn_login.setEnabled(True)  # TODO
         else:
             self.connect_info_label.setText("")
             self.btn_login.setEnabled(True)
 
-
     def login(self):
-        uid=self.input_uid.text()
-        password=self.input_password.text()
-        if uid=='' or password=='':
-            return
-        else:
-            self.hide()
-            self.app.main_window.show()
-
-
-
+        uid = self.input_uid.text()
+        password = self.input_password.text()
+        login_data_pack = DataPack()
+        login_data_pack.id = str(uuid.uuid4())
+        login_data_pack.type = 'login'
+        login_data_pack.timeStamp = time.time()
+        login_data_pack.login_data.uid = uid
+        login_data_pack.login_data.password = password
+        self.app.client.send_buffer.append(login_data_pack)
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    login_window = LoginWindow()
+    login_window = LoginWindow(app)
     login_window.setWindowFlag(Qt.Qt.FramelessWindowHint)
     login_window.show()
     sys.exit(app.exec_())

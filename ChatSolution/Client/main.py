@@ -9,7 +9,12 @@
 """
 import socket
 import struct
+import sys
 import time
+
+from PyQt5.QtWidgets import QApplication
+
+from ChatApp import ChatApp
 from protobuf.DataPack_pb2 import *
 
 
@@ -52,4 +57,7 @@ def client(addr):
 
 
 if __name__ == '__main__':
-    client('127.0.0.1')
+    app=QApplication(sys.argv)
+    chat_app=ChatApp()
+    chat_app.run()
+    sys.exit(app.exec_())

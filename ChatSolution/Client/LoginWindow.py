@@ -9,17 +9,18 @@
 """
 import sys
 
-import qtawesome as qta
 from PyQt5 import Qt, QtCore, QtWidgets
-from PyQt5.QtCore import QEvent
+from PyQt5.QtCore import QEvent, pyqtSignal
 from PyQt5.QtGui import QFont, QCursor, QMouseEvent
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QApplication, QPushButton, QWidgetAction, QLineEdit
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QApplication, QPushButton, QWidgetAction, QLineEdit, QLabel
 from IconButton import IconButton
 
 
 class LoginWindow(QWidget):
+    quit_signal=pyqtSignal()
     def __init__(self):
         super(LoginWindow, self).__init__()
+        self.setWindowFlag(Qt.Qt.FramelessWindowHint)
         self.setMaximumSize(248, 316)
         self.setMinimumSize(248, 316)
         self.setStyleSheet("border-radius:50px;background:white;")
@@ -50,8 +51,8 @@ class LoginWindow(QWidget):
         self.input_uid.setAttribute(QtCore.Qt.WA_MacShowFocusRect, 0)
         self.input_uid.setMinimumSize(QtCore.QSize(185, 40))
         self.input_uid.setMaximumSize(QtCore.QSize(185, 40))
-        font = QFont()
-        font.setPointSize(18)
+        font = QFont("微软雅黑")
+        font.setPointSize(12)
         font.setWordSpacing(2)
         self.input_uid.setFont(font)
         self.input_uid.setFocusPolicy(QtCore.Qt.ClickFocus)
@@ -82,6 +83,12 @@ class LoginWindow(QWidget):
         action.setDefaultWidget(self.btn_login)
         self.input_password.addAction(action, QLineEdit.TrailingPosition)
         self.mainLayout.addWidget(self.input_password, 0, QtCore.Qt.AlignHCenter)
+
+        self.connect_info_label=QLabel(self)
+        self.connect_info_label.setStyleSheet("color:red")
+        # self.connect_info_label.setText("服务器未连接")
+        self.mainLayout.addWidget(self.connect_info_label,0,QtCore.Qt.AlignHCenter)
+
         spacer_3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.mainLayout.addItem(spacer_3)
 
@@ -99,7 +106,7 @@ class LoginWindow(QWidget):
         self.mainLayout.addLayout(self.layout_choice)
 
         # connect
-        self.btn_exit.clicked.connect(lambda: exit(0))
+        self.btn_exit.clicked.connect(lambda: self.quit_signal.emit())
         self.rBtn_auto_Login.toggled.connect(self.rbtn_set)
         self.rBtn_save_password.toggled.connect(self.rbtn_set)
 
@@ -134,6 +141,22 @@ class LoginWindow(QWidget):
                 self._endPos = None
         except Exception as e:
             pass
+
+    def connct_status(self,p_bool):
+        if not p_bool:
+            self.connect_info_label.setText("服务器未连接")
+            self.btn_login.setEnabled(False)
+        else:
+            self.connect_info_label.setText("")
+            self.btn_login.setEnabled(True)
+
+
+    def login(self):
+        uid=self.input_uid.text()
+        password=self.input_password.text()
+        if uid=='' or password=='':
+            return
+
 
 
 if __name__ == '__main__':

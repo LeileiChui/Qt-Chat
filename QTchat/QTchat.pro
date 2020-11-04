@@ -16,6 +16,7 @@ HEADERS += \
     widget.h
 
 FORMS += \
+    ../../../../idea/testQT/info_item.ui \
     widget.ui
 
 # Default rules for deployment.

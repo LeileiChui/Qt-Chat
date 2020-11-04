@@ -7,3 +7,4 @@
 @License: MIT Licence 
 @Software: PyCharm
 """
+server_addr=("127.0.0.1",1234)

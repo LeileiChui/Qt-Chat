@@ -17,62 +17,66 @@ from PyQt5.QtGui import QStandardItemModel, QStandardItem
 
 class ObjectMessageUi(object):
 
-    def setupUi(self, QWidget):
-        self.horizontalLayout = QtWidgets.QHBoxLayout(QWidget)
+    def setupUi(self, Form):
+        Form.setObjectName("Form")
+        Form.resize(646, 80)
+        Form.setMaximumSize(QtCore.QSize(16777215, 80))
+        Form.setStyleSheet("QWidget::hover{}")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(Form)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.headerP = QtWidgets.QLabel()
-        self.headerP.setMinimumSize(QtCore.QSize(70, 60))
-        self.headerP.setMaximumSize(QtCore.QSize(70, 60))
-        self.headerP.setStyleSheet("background:rgb(255, 0, 0);\n"
-"border-radius:30")
-        self.headerP.setText("")
-        self.headerP.setObjectName("headerP")
-        self.horizontalLayout.addWidget(self.headerP)
-        self.message_label = QtWidgets.QLabel()
+        self.space_0 = QtWidgets.QLabel(Form)
+        self.space_0.setMaximumSize(QtCore.QSize(20, 16777215))
+        self.space_0.setText("")
+        self.space_0.setObjectName("space_0")
+        self.horizontalLayout.addWidget(self.space_0)
+        self.avatar = QtWidgets.QLabel(Form)
+        self.avatar.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.avatar.setStyleSheet("background-color:rgb(0, 255, 0);\n"
+                                  "border-radius:40")
+        self.avatar.setText("")
+        self.avatar.setObjectName("avatar")
+        self.horizontalLayout.addWidget(self.avatar)
+        self.space_1 = QtWidgets.QLabel(Form)
+        self.space_1.setMaximumSize(QtCore.QSize(20, 16777215))
+        self.space_1.setText("")
+        self.space_1.setObjectName("space_1")
+        self.horizontalLayout.addWidget(self.space_1)
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.name = QtWidgets.QLabel(Form)
+        self.name.setMaximumSize(QtCore.QSize(16777215, 20))
         font = QtGui.QFont()
-        font.setFamily("宋体")
-        font.setPointSize(12)
-        self.message_label.setFont(font)
-        self.message_label.setStyleSheet("background-color:rgb(255, 255, 255)")
-        self.message_label.setObjectName("message_label")
-        self.horizontalLayout.addWidget(self.message_label)
-
-        self.retranslateUi(QWidget)
-
-    def retranslateUi(self, QWidget):
-        _translate = QtCore.QCoreApplication.translate
-        self.message_label.setText(_translate("MainWindow", "hello!!!!!!!!"))
-
-
-class SelfMessageUi(object):
-    def setupUi(self, QWidget):
-        self.horizontalLayout = QtWidgets.QHBoxLayout(QWidget)
-        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.headerP = QtWidgets.QLabel()
-        self.headerP.setMinimumSize(QtCore.QSize(70, 60))
-        self.headerP.setMaximumSize(QtCore.QSize(70, 60))
-        self.headerP.setStyleSheet("background:rgb(255, 0, 0);\n"
-                                   "border-radius:30")
-        self.headerP.setText("")
-        self.headerP.setObjectName("headerP")
-        self.message_label = QtWidgets.QLabel()
+        font.setFamily("黑体")
+        font.setPointSize(11)
+        self.name.setFont(font)
+        self.name.setObjectName("name")
+        self.verticalLayout.addWidget(self.name)
+        self.content = QtWidgets.QWidget(Form)
+        self.content.setObjectName("content")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.content)
+        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_2.setSpacing(0)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.message = QtWidgets.QLabel(self.content)
         font = QtGui.QFont()
-        font.setFamily("宋体")
-        font.setPointSize(12)
-        self.message_label.setFont(font)
-        self.message_label.setStyleSheet("background-color:rgb(255, 255, 255)")
-        self.message_label.setObjectName("message_label")
-        self.message_label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
-        self.horizontalLayout.addWidget(self.message_label)
-        self.horizontalLayout.addWidget(self.headerP)
-        self.retranslateUi(QWidget)
+        font.setFamily("黑体")
+        font.setPointSize(16)
+        self.message.setFont(font)
+        self.message.setObjectName("message")
+        self.verticalLayout_2.addWidget(self.message)
+        self.verticalLayout.addWidget(self.content)
+        self.horizontalLayout.addLayout(self.verticalLayout)
 
-    def retranslateUi(self, QWidget):
+        self.retranslateUi(Form)
+        QtCore.QMetaObject.connectSlotsByName(Form)
+
+    def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        self.message_label.setText(_translate("MainWindow", "hi!!!!!!!!"))
-
+        Form.setWindowTitle(_translate("Form", "Form"))
+        self.name.setText(_translate("Form", "hsx"))
+        self.message.setText(_translate("Form", "hsxnb"))
 
 
 class ObjMessage(QWidget):
@@ -82,15 +86,6 @@ class ObjMessage(QWidget):
         self.ui.setupUi(self)
         if len(message_pak)!=0:
             pass#TODO
-
-
-class SelfMessage(QWidget):
-    def __init__(self,message_pak=''):
-        super(SelfMessage, self).__init__()
-        self.ui = SelfMessageUi()
-        self.ui.setupUi(self)
-        if len(message_pak)!=0:
-            self.ui.message_label.setText(str(message_pak))
 
 
 class InfoItemUi(object):
@@ -123,7 +118,7 @@ class InfoItemUi(object):
         self.headPic = QtWidgets.QLabel(self.widget)
         self.headPic.setMinimumSize(QtCore.QSize(50, 50))
         self.headPic.setMaximumSize(QtCore.QSize(50, 50))
-        self.headPic.setStyleSheet("border-radius:20px;\n"
+        self.headPic.setStyleSheet("border-radius:25px;\n"
                                    "background:rgb(0, 0, 0)rgb(255, 255, 255)rgb(161, 161, 161);\n"
                                    "")
         self.headPic.setText("")
@@ -134,8 +129,8 @@ class InfoItemUi(object):
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.nickname = QtWidgets.QLabel(list_item)
-        self.nickname.setMinimumSize(QtCore.QSize(425, 35))
-        self.nickname.setMaximumSize(QtCore.QSize(425, 25))
+        # self.nickname.setMinimumSize(QtCore.QSize(425, 35))
+        # self.nickname.setMaximumSize(QtCore.QSize(425, 25))
         font = QtGui.QFont()
         font.setFamily("宋体")
         font.setPointSize(14)
@@ -143,11 +138,11 @@ class InfoItemUi(object):
         self.nickname.setObjectName("nickname")
         self.verticalLayout.addWidget(self.nickname)
         self.snapshot = QtWidgets.QLabel(list_item)
-        self.snapshot.setMinimumSize(QtCore.QSize(425, 20))
-        self.snapshot.setMaximumSize(QtCore.QSize(425, 25))
+        self.snapshot.setMinimumSize(QtCore.QSize(425, 16))
+        self.snapshot.setMaximumSize(QtCore.QSize(425, 16))
         font = QtGui.QFont()
         font.setFamily("幼圆")
-        font.setPointSize(10)
+        font.setPointSize(8)
         self.snapshot.setFont(font)
         self.snapshot.setStyleSheet("color:#5B5B5B")
         self.snapshot.setObjectName("snapshot")
@@ -171,12 +166,13 @@ class InfoItem(QWidget):
         self.ui = InfoItemUi()
         self.ui.setupUi(self)
 
+
 class ChatWindowUi(object):
     def setupUi(self, Widget):
         Widget.setObjectName("Widget")
-        Widget.resize(1000, 565)
         Widget.setWindowOpacity(1.0)
-        Widget.setStyleSheet("")
+        Widget.setMinimumSize(1000, 618)
+        Widget.resize(1000, 618)
         self.horizontalLayout = QtWidgets.QHBoxLayout(Widget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setSpacing(0)
@@ -221,8 +217,9 @@ class MessageListView(QListView):
         super(MessageListView, self).__init__()
         self._model = QStandardItemModel(self)
         self.setModel(self._model)
-
-        for i in range(5):
+        self.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        for i in range(15):
             item = QStandardItem()
             self._model.appendRow(item)
 
@@ -231,7 +228,6 @@ class MessageListView(QListView):
             widget.ui.snapshot.setText("信息" + str(i))
             widget.ui.delete_2.clicked.connect(self.remove)
             widget.ui.delete_2.setProperty("item", item)
-            # widget.ui.horizontalLayout.clicked.connect(self.switch)
 
             item.setSizeHint(QSize(190, 70))
             self.setIndexWidget(index, widget)
@@ -247,14 +243,15 @@ class MessageListView(QListView):
     def swtich(self):
         pass
 
-
 class MessageListWindow(QListView):
     def __init__(self, chat_window):
         super(MessageListWindow, self).__init__()
         self._model = QStandardItemModel(self)
         self.setModel(self._model)
+        self.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
 
-        for i in range(5):
+        for i in range(15):
             item = QStandardItem()
             self._model.appendRow(item)
 
@@ -262,13 +259,15 @@ class MessageListWindow(QListView):
             if i % 2 == 0:
                 widget = ObjMessage()
             else:
-                widget = SelfMessage()
-            print(widget.sizeHint())
-            item.setSizeHint(widget.sizeHint())
+                widget = ObjMessage()
+                widget.setLayoutDirection(QtCore.Qt.RightToLeft)
+                widget.ui.message.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
+                widget.ui.name.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
+            item.setSizeHint(QSize(600,80))
 
             self.setIndexWidget(index, widget)
 
-
+            item.setSelectable(False)
 class ChatWindow(QWidget):
     def __init__(self,app):
         super(ChatWindow, self).__init__()

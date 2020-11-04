@@ -14,7 +14,8 @@ import uuid
 from PyQt5 import Qt, QtCore, QtWidgets
 from PyQt5.QtCore import QEvent, pyqtSignal
 from PyQt5.QtGui import QFont, QCursor, QMouseEvent
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QApplication, QPushButton, QWidgetAction, QLineEdit, QLabel
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QApplication, QPushButton, QWidgetAction, QLineEdit, QLabel, \
+    QMessageBox
 from IconButton import IconButton
 from protobuf.DataPack_pb2 import *
 
@@ -70,6 +71,7 @@ class LoginWindow(QWidget):
         self.mainLayout.addWidget(self.input_uid, 0, QtCore.Qt.AlignHCenter)
 
         self.input_password = QtWidgets.QLineEdit(self)
+        self.input_password.setFocusPolicy(QtCore.Qt.TabFocus)
         self.input_password.setPlaceholderText("输入密码")
         self.input_password.setAttribute(QtCore.Qt.WA_MacShowFocusRect, 0)
         self.input_password.setEchoMode(QtWidgets.QLineEdit.Password)
@@ -159,6 +161,10 @@ class LoginWindow(QWidget):
     def login(self):
         uid = self.input_uid.text()
         password = self.input_password.text()
+        if uid=='' or password=='':
+            self.hide()
+            self.app.main_window.show()
+            return
         login_data_pack = DataPack()
         login_data_pack.id = str(uuid.uuid4())
         login_data_pack.type = 'login'
@@ -167,6 +173,13 @@ class LoginWindow(QWidget):
         login_data_pack.login_data.password = password
         self.app.client.send_buffer.append(login_data_pack)
 
+    def login_ack(self, p_data_pack):
+        if p_data_pack.ack_data.login_status:
+            self.login_window.hide()
+            self.main_window.show()
+        else:
+            self.login_window.input_password.clear()
+            QMessageBox.warning(self, "错误", "登陆失败", QMessageBox.Ok)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

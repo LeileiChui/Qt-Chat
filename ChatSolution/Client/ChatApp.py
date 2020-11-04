@@ -5,11 +5,12 @@ from PyQt5.QtWidgets import QWidget, QMessageBox
 
 from Client import Client
 from LoginWindow import LoginWindow
+from ChatWindow import ChatWindow
 class ChatApp:
     def __init__(self):
         self.client=Client()
-        self.login_window=LoginWindow()
-        self.main_window=QWidget()
+        self.login_window=LoginWindow(self)
+        self.main_window=ChatWindow(self)
         self.client.connect_info.connect(self.login_window.connct_status)
         self.login_window.quit_signal.connect(self.quit)
 

@@ -18,8 +18,9 @@ from IconButton import IconButton
 
 class LoginWindow(QWidget):
     quit_signal=pyqtSignal()
-    def __init__(self):
+    def __init__(self,app):
         super(LoginWindow, self).__init__()
+        self.app=app
         self.setWindowFlag(Qt.Qt.FramelessWindowHint)
         self.setMaximumSize(248, 316)
         self.setMinimumSize(248, 316)
@@ -109,6 +110,7 @@ class LoginWindow(QWidget):
         self.btn_exit.clicked.connect(lambda: self.quit_signal.emit())
         self.rBtn_auto_Login.toggled.connect(self.rbtn_set)
         self.rBtn_save_password.toggled.connect(self.rbtn_set)
+        self.btn_login.clicked.connect(self.login)
 
     def rbtn_set(self):
         if self.sender() == self.rBtn_save_password and not self.rBtn_save_password.isChecked():
@@ -145,7 +147,7 @@ class LoginWindow(QWidget):
     def connct_status(self,p_bool):
         if not p_bool:
             self.connect_info_label.setText("服务器未连接")
-            self.btn_login.setEnabled(False)
+            self.btn_login.setEnabled(True)#TODO
         else:
             self.connect_info_label.setText("")
             self.btn_login.setEnabled(True)
@@ -156,6 +158,11 @@ class LoginWindow(QWidget):
         password=self.input_password.text()
         if uid=='' or password=='':
             return
+        else:
+            self.hide()
+            self.app.main_window.show()
+
+
 
 
 

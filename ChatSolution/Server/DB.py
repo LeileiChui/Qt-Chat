@@ -23,7 +23,35 @@ class DB:
         res = self.cursor.execute(sql)
         return res == 1
 
+    def getFriends(self, uid):
+        sql = """SELECT user.uid, user.nick_name, user.avatar
+FROM person_relation
+         join user on user.uid = person_relation.another_uid
+where person_relation.a_uid = """ + str(uid)
+        self.cursor.execute(sql)
+        res = self.cursor.fetchall()
+        return res
+
+    def getGroups(self, uid):
+        sql = """SELECT `group`.g_id, `group`.g_name, `group`.g_creat_time, `group`.g_author_id, group_relation.g_nick_name
+from `group`
+         JOIN group_relation ON group_relation.group_id = `group`.g_id
+where group_relation.uid = """ + str(uid)
+        self.cursor.execute(sql)
+        res = self.cursor.fetchall()
+        print(res)
+        return res
+
+    def getUserInfo(self, uid):
+        sql = """select uid, nick_name, avatar
+from user
+where uid = """ + str(uid)
+        self.cursor.execute(sql)
+        res = self.cursor.fetchone()
+        print(res)
+        return res
+
 
 if __name__ == '__main__':
     db = DB()
-    db.login('10000', '123456')
+    db.getUserInfo('12345')

@@ -15,5 +15,7 @@ class MessageQueue:
                 print("消息回复")
                 if data_pack.type == 'login' or data_pack.type == 'logout':
                     self.chat_server.LoginService.data_buffer.append((send_pool, data_pack))
+                if data_pack.type == 'msg':
+                    send_pool.append(data_pack)
                 send_pool.append(data_pack)
                 self.recv_buffer.task_done()

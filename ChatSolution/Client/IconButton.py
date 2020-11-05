@@ -42,11 +42,10 @@ class IconButton(QPushButton):
         super(IconButton, self).__init__()
         self.icon = QIcon(self.icon_path[icon_name])
         self.hover_icon = QIcon(self.icon_path[icon_name + '_hover'])
-        self.setStyleSheet('border:none;')
+        self.setStyleSheet('border:none;background:transparent;')
         self.setIcon(self.icon)
         self.setIconSize(QSize(int(size * factor), int(size * factor)))
-        self.setMaximumSize(size, size)
-        self.setMinimumSize(size, size)
+        self.setFixedSize(size, size)
         self.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
         self.active_flag = False
 

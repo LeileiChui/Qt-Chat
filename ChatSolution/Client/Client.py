@@ -9,6 +9,8 @@ from PyQt5.QtCore import QObject, pyqtSignal
 class Client(QObject):
     login_result = pyqtSignal(DataPack)
     connect_info = pyqtSignal(bool)
+    init_data_signal = pyqtSignal(DataPack)
+    receive_msg_signal = pyqtSignal(DataPack)
 
     def __init__(self):
         super(Client, self).__init__()
@@ -42,8 +44,13 @@ class Client(QObject):
                 continue
             data_pack = DataPack()
             data_pack.ParseFromString(data)
+            print(data_pack.type)
             if data_pack.type == "login_ack":
                 self.login_result.emit(data_pack)
+            if data_pack.type == 'init_data':
+                self.init_data_signal.emit(data_pack)
+            if data_pack.type == 'msg':
+                self.receive_msg_signal.emit(data_pack)
 
     def sender(self):
         for data_pack in self.send_buffer:

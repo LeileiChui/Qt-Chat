@@ -23,7 +23,7 @@ class Handler:
             byte_length = struct.pack('>L', len(byte_data))
             self.client.send(byte_length)
             self.client.send(byte_data)
-            print("发送消息")
+            print("发送消息, 长度", len(byte_data))
         self.send_pool.clear()
 
     def receive(self):

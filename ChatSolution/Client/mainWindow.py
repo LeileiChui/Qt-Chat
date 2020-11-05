@@ -8,15 +8,21 @@
 @Software: PyCharm
 """
 import sys
+import time
 
 import typing
+import uuid
+
 from PyQt5 import QtCore, sip
-from PyQt5.QtGui import QMouseEvent, QFont
+from PyQt5.QtCore import QSize, QObject, QEvent, pyqtSignal
+from PyQt5.QtGui import QMouseEvent, QFont, QKeyEvent
 from PyQt5.QtWidgets import QWidget, QApplication, QVBoxLayout, QHBoxLayout, QLineEdit, QWidgetAction, QLabel, \
-    QListWidget, QPlainTextEdit
+    QListWidget, QPlainTextEdit, QListWidgetItem
 
 from IconButton import IconButton
-from UI import Ui_Widget
+from msg_item import Ui_Widget, msg_item
+from chat_list_item import chat_list_item
+from protobuf.DataPack_pb2 import DataPack
 
 
 class MainWindow(QWidget):
@@ -96,8 +102,11 @@ class MainWindow(QWidget):
         self.mainArea_layout.setContentsMargins(0, 0, 0, 0)
         self.mainArea_layout.setSpacing(0)
         self.chat_list = QListWidget(self.mainArea)
+        self.chat_list.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.chat_list.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.chat_list.setStyleSheet('border-left:none;border-top:none;border-bottom:none;')
         self.chat_list.setFixedWidth(240)
+
         self.mainArea_layout.addWidget(self.chat_list)
 
         self.right_bottom_widget = QWidget(self.mainArea)
@@ -106,6 +115,8 @@ class MainWindow(QWidget):
         self.right_bottom_widget_layout.setSpacing(0)
         self.chat_record = QListWidget(self.right_bottom_widget)
         self.chat_record.setStyleSheet('border-left:none;border-top:none;border-right:none;')
+        self.chat_record.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.chat_record.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.right_bottom_widget_layout.addWidget(self.chat_record)
         self.quick_op_btns = QWidget(self.right_bottom_widget)
         self.quick_op_btns.setStyleSheet('background:white;')
@@ -136,6 +147,10 @@ class MainWindow(QWidget):
         self.msg_edit = QPlainTextEdit(self.right_bottom_widget)
         self.msg_edit.setStyleSheet('border-top:none;')
         self.msg_edit.setFixedHeight(120)
+        self.msg_edit.setEnabled(False)
+
+        self.eventFilter = sendEventFilter()
+        self.msg_edit.installEventFilter(self.eventFilter)
 
         self.msg_edit.setFont(font)
         self.right_bottom_widget_layout.addWidget(self.msg_edit)
@@ -147,6 +162,8 @@ class MainWindow(QWidget):
         self.exit_btn.clicked.connect(self.app.quit)
         self.goto_chat_btn.clicked.connect(self.switch_page)
         self.goto_manager_btn.clicked.connect(self.switch_page)
+        self.chat_list.itemDoubleClicked.connect(self.switch_chat)
+        self.eventFilter.send_msg_signal.connect(self.send_msg)
 
     def switch_page(self):
         if self.sender() == self.goto_chat_btn:
@@ -228,6 +245,118 @@ class MainWindow(QWidget):
         self._corner_drag = False
         self._bottom_drag = False
         self._right_drag = False
+
+    def update_chat_with(self):
+        for friend in self.app.user.friends:
+            widget = chat_list_item()
+            widget.name.setText(self.app.user.friends[friend].nick_name)
+            item = QListWidgetItem()
+            item.setSizeHint(QSize(240, 70))
+            widget.close_btn.setProperty('item', item)
+            widget.setProperty('chat_type', 'p2p')
+            widget.setProperty('uid', self.app.user.friends[friend].uid)
+            widget.close_btn.clicked.connect(self.remove_chat_with)
+            self.chat_list.addItem(item)
+            self.chat_list.setItemWidget(item, widget)
+
+        for group in self.app.user.groups:
+            print(self.app.user.groups[group].g_name)
+            widget = chat_list_item()
+            widget.name.setText(self.app.user.groups[group].g_name)
+            item = QListWidgetItem()
+            item.setSizeHint(QSize(240, 70))
+            widget.close_btn.setProperty('item', item)
+            widget.close_btn.clicked.connect(self.remove_chat_with)
+            widget.setProperty('chat_type', 'group')
+            widget.setProperty('g_id', self.app.user.groups[group].g_id)
+            self.chat_list.addItem(item)
+            self.chat_list.setItemWidget(item, widget)
+            print(widget)
+            print(item)
+
+    def remove_chat_with(self):
+        item = self.sender().property('item')
+        index = self.chat_list.indexFromItem(item)
+        print(index.row())
+        self.chat_list.takeItem(index.row())
+
+    def switch_chat(self):
+        item = self.chat_list.selectedItems()[0]
+        widget = item.listWidget().itemWidget(item)
+        chat_type = widget.property('chat_type')
+        another_id = None
+        if chat_type == 'p2p':
+            self.chat_with_uid = widget.property('uid')
+            another_id = self.chat_with_uid
+        if chat_type == 'group':
+            self.chat_with_g_id = widget.property('g_id')
+            another_id = self.chat_with_g_id
+        data_pack = DataPack()
+        data_pack.type = 'get_history_msg'
+        data_pack.id = str(uuid.uuid4())
+        data_pack.timeStamp = time.time()
+        data_pack.get_msg_req.uid = self.app.user.uid
+        data_pack.get_msg_req.type = chat_type
+        data_pack.get_msg_req.another_id = another_id
+        self.app.client.send_buffer.append(data_pack)
+        self.msg_edit.setEnabled(True)
+
+    def send_msg(self):
+        msg = self.msg_edit.toPlainText()
+        print(msg)
+        self.msg_edit.clear()
+        widget = msg_item()
+        widget.setLayoutDirection(QtCore.Qt.RightToLeft)
+        widget.ui.nick_name.setText(self.app.user.nick_name)
+        widget.ui.nick_name.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
+        widget.ui.msg.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
+        widget.ui.msg.setText(msg)
+        item = QListWidgetItem()
+        item.setSizeHint(QSize(760, 80))
+        self.chat_record.addItem(item)
+        self.chat_record.setItemWidget(item, widget)
+        self.chat_record.setCurrentRow(self.chat_record.count() - 1)
+        data_pack = DataPack()
+        data_pack.type = 'msg'
+        data_pack.id = str(uuid.uuid4())
+        data_pack.timeStamp = time.time()
+        data_pack.one_msg.from_id = self.app.user.uid
+        data_pack.one_msg.to_id = self.app.user.uid
+        data_pack.one_msg.msg_type = 'text'
+        data_pack.one_msg.text = msg
+        self.app.client.send_buffer.append(data_pack)
+        item = self.chat_list.selectedItems()[0]
+        widget = item.listWidget().itemWidget(item)
+        widget.msg_preview.setText(self.app.user.nick_name + ":" + msg)
+
+    def recv_msg(self, p_data_pack):
+        widget = msg_item()
+        widget.ui.nick_name.setText(self.app.user.nick_name)
+        print(p_data_pack.one_msg.text)
+        widget.ui.msg.setText(p_data_pack.one_msg.text)
+        item = QListWidgetItem()
+        item.setSizeHint(QSize(760, 80))
+        self.chat_record.addItem(item)
+        self.chat_record.setItemWidget(item, widget)
+        self.chat_record.setCurrentRow(self.chat_record.count() - 1)
+        item = self.chat_list.selectedItems()[0]
+        widget = item.listWidget().itemWidget(item)
+        widget.msg_preview.setText(self.app.user.nick_name + ":" + p_data_pack.one_msg.text)
+
+
+class sendEventFilter(QObject):
+    send_msg_signal = pyqtSignal()
+
+    def __init__(self):
+        super(sendEventFilter, self).__init__()
+
+    def eventFilter(self, obj: 'QObject', event: 'QEvent') -> bool:
+        if event.type() == QEvent.KeyPress:
+            event = QKeyEvent(event)
+            if event.key() == QtCore.Qt.Key_Return:
+                self.send_msg_signal.emit()
+                return True
+        return False
 
 
 if __name__ == '__main__':

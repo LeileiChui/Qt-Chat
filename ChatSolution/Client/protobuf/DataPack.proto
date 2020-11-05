@@ -7,6 +7,12 @@ message DataPack{
   LoginData login_data = 4;
   LogoutData logout_data = 5;
   AckData ack_data = 6;
+  UserInfo user_info = 7;
+  Msg one_msg = 8;
+  ReqHistoryMsg get_msg_req = 9;
+  repeated UserInfo friends_info = 10;
+  repeated GroupInfo groups_info = 11;
+  repeated Msg offline_msg = 12;
 }
 message LoginData{
   string uid = 1;
@@ -18,6 +24,32 @@ message LogoutData{
 }
 message AckData{
   string ack_id = 1;
-  bool login_status=2;
+  bool login_status = 2;
   string session = 3;
+}
+message UserInfo{
+  string uid = 1;
+  string nick_name = 2;
+  bool  isMale = 3;
+  double registration_time = 4;
+  double start_time = 5;
+  bytes avatar = 6;
+}
+message GroupInfo{
+  string g_id = 1;
+  string g_name = 2;
+  string start_time = 3;
+  repeated string group_member = 4;
+}
+message Msg{
+  string from_id = 1;
+  string to_id = 2;
+  string msg_type = 3;
+  string text = 4;
+  bytes image = 5;
+}
+message ReqHistoryMsg{
+  string uid = 1;
+  string type = 2;
+  string another_id = 3;
 }

@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0e\x44\x61taPack.proto\"\x95\x01\n\x08\x44\x61taPack\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\t\x12\x11\n\ttimeStamp\x18\x03 \x01(\x01\x12\x1e\n\nlogin_data\x18\x04 \x01(\x0b\x32\n.LoginData\x12 \n\x0blogout_data\x18\x05 \x01(\x0b\x32\x0b.LogoutData\x12\x1a\n\x08\x61\x63k_data\x18\x06 \x01(\x0b\x32\x08.AckData\"*\n\tLoginData\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"*\n\nLogoutData\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x0f\n\x07session\x18\x02 \x01(\t\"@\n\x07\x41\x63kData\x12\x0e\n\x06\x61\x63k_id\x18\x01 \x01(\t\x12\x14\n\x0clogin_status\x18\x02 \x01(\x08\x12\x0f\n\x07session\x18\x03 \x01(\tb\x06proto3'
+  serialized_pb=b'\n\x0e\x44\x61taPack.proto\"\xa7\x02\n\x08\x44\x61taPack\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\t\x12\x11\n\ttimeStamp\x18\x03 \x01(\x01\x12\x1e\n\nlogin_data\x18\x04 \x01(\x0b\x32\n.LoginData\x12 \n\x0blogout_data\x18\x05 \x01(\x0b\x32\x0b.LogoutData\x12\x1a\n\x08\x61\x63k_data\x18\x06 \x01(\x0b\x32\x08.AckData\x12\x1c\n\tuser_info\x18\x07 \x01(\x0b\x32\t.UserInfo\x12\x15\n\x07one_msg\x18\x08 \x01(\x0b\x32\x04.Msg\x12\x1f\n\x0c\x66riends_info\x18\t \x03(\x0b\x32\t.UserInfo\x12\x1f\n\x0bgroups_info\x18\n \x03(\x0b\x32\n.GroupInfo\x12\x19\n\x0boffline_msg\x18\x0b \x03(\x0b\x32\x04.Msg\"*\n\tLoginData\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"*\n\nLogoutData\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x0f\n\x07session\x18\x02 \x01(\t\"@\n\x07\x41\x63kData\x12\x0e\n\x06\x61\x63k_id\x18\x01 \x01(\t\x12\x14\n\x0clogin_status\x18\x02 \x01(\x08\x12\x0f\n\x07session\x18\x03 \x01(\t\"y\n\x08UserInfo\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x11\n\tnick_name\x18\x02 \x01(\t\x12\x0e\n\x06isMale\x18\x03 \x01(\x08\x12\x19\n\x11registration_time\x18\x04 \x01(\x01\x12\x12\n\nstart_time\x18\x05 \x01(\x01\x12\x0e\n\x06\x61vatar\x18\x06 \x01(\x0c\"g\n\tGroupInfo\x12\x0c\n\x04g_id\x18\x01 \x01(\t\x12\x0e\n\x06g_name\x18\x02 \x01(\t\x12\x12\n\ncreat_time\x18\x03 \x01(\x01\x12\x13\n\x0bg_author_id\x18\x04 \x01(\t\x12\x13\n\x0bg_nick_name\x18\x05 \x01(\t\"T\n\x03Msg\x12\x0f\n\x07\x66rom_id\x18\x01 \x01(\t\x12\r\n\x05to_id\x18\x02 \x01(\t\x12\x10\n\x08msg_type\x18\x03 \x01(\t\x12\x0c\n\x04text\x18\x04 \x01(\t\x12\r\n\x05image\x18\x05 \x01(\x0c\x62\x06proto3'
 )
 
 
@@ -75,6 +75,41 @@ _DATAPACK = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='user_info', full_name='DataPack.user_info', index=6,
+      number=7, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='one_msg', full_name='DataPack.one_msg', index=7,
+      number=8, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='friends_info', full_name='DataPack.friends_info', index=8,
+      number=9, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='groups_info', full_name='DataPack.groups_info', index=9,
+      number=10, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='offline_msg', full_name='DataPack.offline_msg', index=10,
+      number=11, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -88,7 +123,7 @@ _DATAPACK = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=19,
-  serialized_end=168,
+  serialized_end=314,
 )
 
 
@@ -126,8 +161,8 @@ _LOGINDATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=170,
-  serialized_end=212,
+  serialized_start=316,
+  serialized_end=358,
 )
 
 
@@ -165,8 +200,8 @@ _LOGOUTDATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=214,
-  serialized_end=256,
+  serialized_start=360,
+  serialized_end=402,
 )
 
 
@@ -211,17 +246,212 @@ _ACKDATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=258,
-  serialized_end=322,
+  serialized_start=404,
+  serialized_end=468,
+)
+
+
+_USERINFO = _descriptor.Descriptor(
+  name='UserInfo',
+  full_name='UserInfo',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='uid', full_name='UserInfo.uid', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='nick_name', full_name='UserInfo.nick_name', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='isMale', full_name='UserInfo.isMale', index=2,
+      number=3, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='registration_time', full_name='UserInfo.registration_time', index=3,
+      number=4, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='start_time', full_name='UserInfo.start_time', index=4,
+      number=5, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='avatar', full_name='UserInfo.avatar', index=5,
+      number=6, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=470,
+  serialized_end=591,
+)
+
+
+_GROUPINFO = _descriptor.Descriptor(
+  name='GroupInfo',
+  full_name='GroupInfo',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='g_id', full_name='GroupInfo.g_id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='g_name', full_name='GroupInfo.g_name', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='creat_time', full_name='GroupInfo.creat_time', index=2,
+      number=3, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='g_author_id', full_name='GroupInfo.g_author_id', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='g_nick_name', full_name='GroupInfo.g_nick_name', index=4,
+      number=5, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=593,
+  serialized_end=696,
+)
+
+
+_MSG = _descriptor.Descriptor(
+  name='Msg',
+  full_name='Msg',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='from_id', full_name='Msg.from_id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='to_id', full_name='Msg.to_id', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='msg_type', full_name='Msg.msg_type', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='text', full_name='Msg.text', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='image', full_name='Msg.image', index=4,
+      number=5, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=698,
+  serialized_end=782,
 )
 
 _DATAPACK.fields_by_name['login_data'].message_type = _LOGINDATA
 _DATAPACK.fields_by_name['logout_data'].message_type = _LOGOUTDATA
 _DATAPACK.fields_by_name['ack_data'].message_type = _ACKDATA
+_DATAPACK.fields_by_name['user_info'].message_type = _USERINFO
+_DATAPACK.fields_by_name['one_msg'].message_type = _MSG
+_DATAPACK.fields_by_name['friends_info'].message_type = _USERINFO
+_DATAPACK.fields_by_name['groups_info'].message_type = _GROUPINFO
+_DATAPACK.fields_by_name['offline_msg'].message_type = _MSG
 DESCRIPTOR.message_types_by_name['DataPack'] = _DATAPACK
 DESCRIPTOR.message_types_by_name['LoginData'] = _LOGINDATA
 DESCRIPTOR.message_types_by_name['LogoutData'] = _LOGOUTDATA
 DESCRIPTOR.message_types_by_name['AckData'] = _ACKDATA
+DESCRIPTOR.message_types_by_name['UserInfo'] = _USERINFO
+DESCRIPTOR.message_types_by_name['GroupInfo'] = _GROUPINFO
+DESCRIPTOR.message_types_by_name['Msg'] = _MSG
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 DataPack = _reflection.GeneratedProtocolMessageType('DataPack', (_message.Message,), {
@@ -251,6 +481,27 @@ AckData = _reflection.GeneratedProtocolMessageType('AckData', (_message.Message,
   # @@protoc_insertion_point(class_scope:AckData)
   })
 _sym_db.RegisterMessage(AckData)
+
+UserInfo = _reflection.GeneratedProtocolMessageType('UserInfo', (_message.Message,), {
+  'DESCRIPTOR' : _USERINFO,
+  '__module__' : 'DataPack_pb2'
+  # @@protoc_insertion_point(class_scope:UserInfo)
+  })
+_sym_db.RegisterMessage(UserInfo)
+
+GroupInfo = _reflection.GeneratedProtocolMessageType('GroupInfo', (_message.Message,), {
+  'DESCRIPTOR' : _GROUPINFO,
+  '__module__' : 'DataPack_pb2'
+  # @@protoc_insertion_point(class_scope:GroupInfo)
+  })
+_sym_db.RegisterMessage(GroupInfo)
+
+Msg = _reflection.GeneratedProtocolMessageType('Msg', (_message.Message,), {
+  'DESCRIPTOR' : _MSG,
+  '__module__' : 'DataPack_pb2'
+  # @@protoc_insertion_point(class_scope:Msg)
+  })
+_sym_db.RegisterMessage(Msg)
 
 
 # @@protoc_insertion_point(module_scope)

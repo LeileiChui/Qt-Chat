@@ -54,10 +54,12 @@ class LoginWindow(QWidget):
 
         self.input_uid = QtWidgets.QLineEdit(self)
         self.input_uid.setPlaceholderText("输入账号")
+        # 测试账号
+        self.input_uid.setText('10000')
         self.input_uid.setAttribute(QtCore.Qt.WA_MacShowFocusRect, 0)
         self.input_uid.setMinimumSize(QtCore.QSize(185, 40))
         self.input_uid.setMaximumSize(QtCore.QSize(185, 40))
-        font = QFont("微软雅黑")
+        font = QFont("PingFang SC")
         font.setPointSize(12)
         font.setWordSpacing(2)
         self.input_uid.setFont(font)
@@ -73,6 +75,7 @@ class LoginWindow(QWidget):
         self.input_password = QtWidgets.QLineEdit(self)
         self.input_password.setFocusPolicy(QtCore.Qt.TabFocus)
         self.input_password.setPlaceholderText("输入密码")
+        self.input_password.setText('123456')
         self.input_password.setAttribute(QtCore.Qt.WA_MacShowFocusRect, 0)
         self.input_password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.input_password.setMinimumSize(QtCore.QSize(185, 40))
@@ -153,7 +156,7 @@ class LoginWindow(QWidget):
     def connct_status(self, p_bool):
         if not p_bool:
             self.connect_info_label.setText("服务器未连接")
-            self.btn_login.setEnabled(True)  # TODO
+            self.btn_login.setEnabled(False)  # TODO
         else:
             self.connect_info_label.setText("")
             self.btn_login.setEnabled(True)
@@ -161,7 +164,7 @@ class LoginWindow(QWidget):
     def login(self):
         uid = self.input_uid.text()
         password = self.input_password.text()
-        if uid=='' or password=='':
+        if uid == '' or password == '':
             self.hide()
             self.app.main_window.show()
             return
@@ -175,11 +178,12 @@ class LoginWindow(QWidget):
 
     def login_ack(self, p_data_pack):
         if p_data_pack.ack_data.login_status:
-            self.login_window.hide()
-            self.main_window.show()
+            self.close()
+            self.app.main_window.show()
         else:
-            self.login_window.input_password.clear()
+            self.input_password.clear()
             QMessageBox.warning(self, "错误", "登陆失败", QMessageBox.Ok)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
